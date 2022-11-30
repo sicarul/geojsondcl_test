@@ -7,38 +7,52 @@ with open('all_tiles.json') as tiles_f:
     features = []
 
     i=0
-    for key in all_tiles['data']:
-        tile = all_tiles['data'][key]
-        base_x = round(Decimal(tile['x'])/1000,4)
-        base_y = round(Decimal(tile['y'])/1000,4)
-        
+
+    for quadrant_X in range(30):
+      x_start = (quadrant_X - 15) * 10
+      x_end = x_start + 9
+      if x_end == 149:
+        x_end = 150
+
+      for quadrant_Y in range(30):
+        y_start = (quadrant_Y - 15) * 10
+        y_end = y_start + 9
+        if y_end == 149:
+          y_end = 150
+
+        coord_x_start = float(round(Decimal(x_start)/1000,4))
+        coord_y_start = float(round(Decimal(y_start)/1000,4))
+        coord_x_end = float(round(Decimal(x_end)/1000,4))
+        coord_y_end = float(round(Decimal(y_end)/1000,4))
+
         features.append(
           {
             "type": "Feature",
-            "id": 0,
+            "id": i,
             "geometry": {
               "type": "Polygon",
               "coordinates": [[
                 [
-                  float(base_x+Decimal(0.0001)),
-                  float(base_y+Decimal(0.0001))
+                  coord_x_start,
+                  coord_y_start
                 ],[
-                  float(base_x+Decimal(0.0009)),
-                  float(base_y+Decimal(0.0001))
+                  coord_x_end,
+                  coord_y_start
                 ],[
-                  float(base_x+Decimal(0.0009)),
-                  float(base_y+Decimal(0.0009))
+                  coord_x_end,
+                  coord_y_end
                 ],[
-                  float(base_x+Decimal(0.0001)),
-                  float(base_y+Decimal(0.0009))
+                  coord_x_start,
+                  coord_y_end
                 ],[
-                  float(base_x+Decimal(0.0001)),
-                  float(base_y+Decimal(0.0001))
+                  coord_x_start,
+                  coord_y_start
                 ]
               ]]
             },
             "properties": {
-              "tile_id": f"{tile['x']}|{tile['y']}"
+              "coord_start": f"{x_start}|{y_start}",
+              "coord_end": f"{x_end}|{y_end}"
             }
           }
         )
