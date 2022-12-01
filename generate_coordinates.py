@@ -67,6 +67,7 @@ for quadrant_X in range(GRID_LENGTH):
             },
             "properties": {
                 "grid_id": i,
+                "grid_name": f"{x_start},{y_start} to {x_end},{y_end}",
                 "coord_start": f"{x_start}|{y_start}",
                 "coord_end": f"{x_end}|{y_end}"
             }
